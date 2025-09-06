@@ -129,7 +129,7 @@ def send_email(	request, call_on,
 		try:
 			send_mail(
 				"Coordinator Registration at FOSSEE, IIT Bombay", message, SENDER_EMAIL,
-				[request.user.email], fail_silently=True
+				[request.user.email], fail_silently=False
 				)
 
 		except Exception:
