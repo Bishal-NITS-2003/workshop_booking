@@ -1,53 +1,106 @@
-{% extends 'workshop_app/base.html' %}
-
-{% block title %}
-    Login
+{% extends 'workshop_app/base.html' %} 
+{% block title %} 
+Login
 {% endblock %}
-
-{% block content %}
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6 col-md-offset-6">
-                <div class="card">
-                    <div class="card-body">
-                        <form class="px-3 py-3" method="post">
-                        {% csrf_token %}
-                        {% if form.errors %}
-                            {% for field in form %}
-                                {% for error in field.errors %}
-                                    <div class="alert alert-dismissible alert-danger">
-                                        <button type="button" class="close" data-dismiss="alert">
-                                            <i class="fa fa-close"></i>
-                                        </button>
-                                        <strong>{{ error|escape }}</strong>
-                                    </div>
-                                {% endfor %}
-                            {% endfor %}
-                            {% for error in form.non_field_errors %}
-                                <div class="alert alert-dismissible alert-danger">
-                                    <button type="button" class="close" data-dismiss="alert">
-                                        <i class="fa fa-close"></i>
-                                    </button>
-                                    <strong>{{ error|escape }}</strong>
-                                </div>
-                            {% endfor %}
-                        {% endif %}
-                        <div class="form-group">
-                          <label for="id_username">Username</label>
-                          {{ form.username }}
-                        </div>
-                        <div class="form-group">
-                          <label for="id_password">Password</label>
-                          {{ form.password }}
-                        </div>
-                        <button type="submit" class="btn btn-primary">Sign in</button>
-                        </form>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{% url 'workshop_app:register' %}">New around here? Sign up</a>
-                        <a class="dropdown-item" href="{% url 'password_reset' %}">Forgot password?</a>
-                    </div>
-                </div>  
-            </div>
+{% block extra-custom-scripts %}
+<style>
+  body {
+    font-family: "Inter", sans-serif !important;
+  }
+  :root {
+    --primary-color: #1173d4 !important;
+  }
+  .btn-primary {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color);
+  }
+  .btn-primary:hover {
+    background-color: #0d5aa7 !important;
+    border-color: #0d5aa7 !important;
+  }
+  .form-control:focus {
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 0.25rem rgba(17, 115, 212, 0.25) !important;
+  }
+  .link-primary {
+    color: var(--primary-color) !important;
+  }
+  .link-primary:hover {
+    color: #0d5aa7 !important;
+  }
+</style>
+{% endblock %} {% block content %}
+<main
+  class="flex-grow-1 d-flex align-items-center justify-content-center bg-light px-4"
+>
+  <div class="w-100" style="max-width: 450px">
+    <div class="bg-white p-4 p-sm-5 rounded-3 shadow-lg">
+      <h2 class="text-center fs-2 fw-bold text-dark mb-4">
+        Sign in to your account
+      </h2>
+      <form class="mt-4" method="post">
+        {% csrf_token %} {% if form.non_field_errors %}
+        <div
+          class="alert alert-danger alert-dismissible fade show"
+          role="alert"
+        >
+          {% for error in form.non_field_errors %}
+          <strong>{{ error|escape }}</strong>
+          {% endfor %}
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
         </div>
+        {% endif %}
+        <div class="mb-3">
+          <label class="form-label visually-hidden" for="id_username"
+            >Username</label
+          >
+          {{ form.username }} {% if form.username.errors %}
+          <div class="text-danger small mt-1">
+            {% for error in form.username.errors %} {{ error }} {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+        <div class="mb-3">
+          <label class="form-label visually-hidden" for="id_password"
+            >Password</label
+          >
+          {{ form.password }} {% if form.password.errors %}
+          <div class="text-danger small mt-1">
+            {% for error in form.password.errors %} {{ error }} {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+        <div class="d-flex align-items-center justify-content-end mb-3">
+          <div class="text-sm">
+            <a
+              class="link-primary text-decoration-none fw-medium"
+              href="{% url 'password_reset' %}"
+            >
+              Forgot your password?
+            </a>
+          </div>
+        </div>
+        <div>
+          <button class="btn btn-primary w-100 btn-lg" type="submit">
+            Sign in
+          </button>
+        </div>
+        <p class="text-center text-secondary mt-4 mb-0">
+          New user?
+          <a
+            class="link-primary text-decoration-none fw-medium"
+            href="{% url 'workshop_app:register' %}"
+          >
+            Sign up
+          </a>
+        </p>
+      </form>
     </div>
+  </div>
+</main>
 {% endblock %}
