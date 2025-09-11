@@ -110,6 +110,10 @@
                 <span class="status-pill status-deleted"
                   >{{ workshop.get_status }}</span
                 >
+                {% else %}
+                <span class="status-pill status-pending"
+                  >{{ workshop.get_status }}</span
+                >
                 {% endif %}
               </td>
             </tr>
@@ -144,7 +148,7 @@
               </td>
               <td class="py-3 px-4 text-muted">{{ workshop.date|date }}</td>
               <td class="py-3 px-4">
-                {% if workshop.get_status == "Pending Approval" %}
+                {% if workshop.get_status == "Pending" %}
                 <span class="status-pill status-pending"
                   >{{ workshop.get_status }}</span
                 >
