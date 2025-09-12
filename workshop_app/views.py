@@ -403,13 +403,13 @@ def workshop_type_list(request):
     if user.is_superuser:
         return redirect("/admin")
 
-    workshop_types = WorkshopType.objects.get_queryset().order_by("id")
-
-    paginator = Paginator(workshop_types, 12)  # Show upto 12 workshops per page
-    page = request.GET.get('page')
-    workshop_type = paginator.get_page(page)
-
-    return render(request, 'workshop_app/workshop_type_list.html', {'workshop_type': workshop_type})
+    workshop_types = WorkshopType.objects.all().order_by('id')  # Add order_by here
+    paginator = Paginator(workshop_types, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'workshop_app/workshop_type_list.html', {
+        'workshop_type': page_obj
+    })
 
 
 @login_required
