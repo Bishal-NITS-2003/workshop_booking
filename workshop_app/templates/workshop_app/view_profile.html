@@ -1,129 +1,162 @@
-{% extends 'workshop_app/base.html' %}
-
-{% block title %} Profile {% endblock %}
-
-{% csrf_token %}
+{% extends 'workshop_app/base.html' %} {% block title %} Profile {% endblock %}
 {% block content %}
-
-    <div class="container">
-        {% if Workshops %}
-            <table class="table table-bordered">
-                <tr>
-                    <th><label for="id_first_name"><h5>First name:</h5></label></th>
-                    <th><label for="id_first_name"><h5>{{ coordinator_profile.user.first_name }}</h5></label></th>
-                </tr>
-                <tr>
-                    <th><label for="id_last_name"><h5>Last name:</h5></label></th>
-                    <th><label for="id_last_name"><h5>{{ coordinator_profile.user.last_name }}</h5></label></th>
-                </tr>
-                <tr>
-                    <th><label for="id_email"><h5>Email:</h5></label></th>
-                    <th><label for="id_email"><h5>{{ coordinator_profile.user.email }}</h5></label></th>
-                </tr>
-                <tr>
-                    <th><label for="id_institute"><h5>Institute:</h5></label></th>
-                    <th><label for="id_institute"><h5>{{ coordinator_profile.user.profile.institute }}</h5></label></th>
-                </tr>
-                <tr>
-                    <th><label for="id_phone_number"><h5>Phone Number:</h5></label></th>
-                    <th><label for="id_phone_number"><h5>{{ coordinator_profile.user.profile.phone_number }}</h5></label>
-                    </th>
-                </tr>
-                <tr>
-                    <th><label for="id_department"><h5>Department:</h5></label></th>
-                    <th><label for="id_department"><h5>{{ coordinator_profile.user.profile.department }}</h5></label></th>
-                </tr>
-                <tr>
-                    <th><label for="id_location"><h5>Location:</h5></label></th>
-                    <th><label for="id_location"><h5>{{ coordinator_profile.user.profile.location }}</h5></label></th>
-                </tr>
-                <tr>
-                    <th><label for="id_position"><h5>Position:</h5></label></th>
-                    <th><label for="id_position"><h5>{{ coordinator_profile.user.profile.position }}</h5></label></th>
-                </tr>
-            </table>
-            <br>
-
-            <div class="container">
-            <h2>Workshop Details</h2>
-            <table class="table table-bordered">
+<main class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-sm">
+        <div class="card-body p-5">
+          <div class="mb-4">
+            <h1 class="h3 fw-bold text-dark">Update Profile</h1>
+            <p class="text-muted">
+              Manage and update your personal information.
+            </p>
+          </div>
+          {% if Workshops %}
+          <table class="table table-bordered mb-5">
             <tr>
-                <th><label for="id_instructor_name">Instructor name</label></th>
-                <th><label for="id_workshop_date">Workshop date</label></th>
-                <th><label for="id_workshop_type">Workshop type</label></th>
+              <th>First name:</th>
+              <td>{{ coordinator_profile.user.first_name }}</td>
             </tr>
-            {% for workshop in Workshops %}
-                {% if workshop.instructor %}
-                    <tr>
-                        <td><label for="id_instructor_name">{{ workshop.instructor }}
-                        </label></td>
-                        <td><label for="id_workshop_date">{{ workshop.date }}</label>
-                        </td>
-                        <td><label for="id_workshop_type">{{ workshop.workshop_type }}</label>
-                        </td>
-                    </tr>
+            <tr>
+              <th>Last name:</th>
+              <td>{{ coordinator_profile.user.last_name }}</td>
+            </tr>
+            <tr>
+              <th>Email:</th>
+              <td>{{ coordinator_profile.user.email }}</td>
+            </tr>
+            <tr>
+              <th>Institute:</th>
+              <td>{{ coordinator_profile.user.profile.institute }}</td>
+            </tr>
+            <tr>
+              <th>Phone Number:</th>
+              <td>{{ coordinator_profile.user.profile.phone_number }}</td>
+            </tr>
+            <tr>
+              <th>Department:</th>
+              <td>{{ coordinator_profile.user.profile.department }}</td>
+            </tr>
+            <tr>
+              <th>Location:</th>
+              <td>{{ coordinator_profile.user.profile.location }}</td>
+            </tr>
+            <tr>
+              <th>Position:</th>
+              <td>{{ coordinator_profile.user.profile.position }}</td>
+            </tr>
+          </table>
+          <div>
+            <h2 class="h4 mb-3">Workshop Details</h2>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Instructor name</th>
+                  <th>Workshop date</th>
+                  <th>Workshop type</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for workshop in Workshops %} {% if workshop.instructor %}
+                <tr>
+                  <td>{{ workshop.instructor }}</td>
+                  <td>{{ workshop.date }}</td>
+                  <td>{{ workshop.workshop_type }}</td>
+                </tr>
                 {% else %}
-                    <tr>
-                        <td><span class="badge badge-warning">Pending</span></td>
-                        <td><label for="id_workshop_date">{{ workshop.date }}</label>
-                        </td>
-                        <td><label for="id_workshop_type">{{ workshop.workshop_type }}</label>
-                        </td>
-                    </tr>
-                {% endif %}
-            {% endfor %}
+                <tr>
+                  <td>
+                    <span class="badge bg-warning text-dark">Pending</span>
+                  </td>
+                  <td>{{ workshop.date }}</td>
+                  <td>{{ workshop.workshop_type }}</td>
+                </tr>
+                {% endif %} {% endfor %}
+              </tbody>
             </table>
+          </div>
+          {% else %}
+          <form method="post" class="row g-3">
+            {% csrf_token %} {% if form.errors %}
+            <div class="col-12">
+              {% for field in form %} {% for error in field.errors %}
+              <div
+                class="alert alert-danger alert-dismissible fade show"
+                role="alert"
+              >
+                <strong>{{ field.label }}:</strong> {{ error|escape }}
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="alert"
+                  aria-label="Close"
+                ></button>
+              </div>
+              {% endfor %} {% endfor %} {% for error in form.non_field_errors %}
+              <div
+                class="alert alert-danger alert-dismissible fade show"
+                role="alert"
+              >
+                <strong>Error:</strong> {{ error|escape }}
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="alert"
+                  aria-label="Close"
+                ></button>
+              </div>
+              {% endfor %}
             </div>
-            <br><br>
-        {% else %}
-            <form action="" method="post">
-              {% csrf_token %}
-                <div class="row justify-content-center form-group">
-                    <div class="col-md-6">
-                    <form action="" method="post">
-                        <fieldset>
-                            {% csrf_token %}
-                            {% if form.errors %}
-                                {% for field in form %}
-                                    {% for error in field.errors %}
-                                        <div class="alert alert-dismissible alert-danger">
-                                            <button type="button" class="close" data-dismiss="alert">
-                                                <i class="fa fa-close"></i>
-                                            </button>
-                                            <strong>{{field.label}} : {{ error|escape }}</strong>
-                                        </div>
-                                    {% endfor %}
-                                {% endfor %}
-                                {% for error in form.non_field_errors %}
-                                    <div class="alert alert-dismissible alert-danger">
-                                        <button type="button" class="close" data-dismiss="alert">
-                                            <i class="fa fa-close"></i>
-                                        </button>
-                                        <strong>{{field.label}} : {{ error|escape }}</strong>
-                                    </div>
-                                {% endfor %}
-                            {% endif %}
-                            <table class="table table-responsive-sm">
-                                <tr><td>{{form.title}}</td></tr>
-                                <tr><td>{{form.first_name}}</td></tr>
-                                <tr><td>{{form.last_name}}</td></tr>
-                                <tr><td>{{form.phone_number}}</td></tr>
-                                <tr><td>{{form.institute}}</td></tr>
-                                <tr><td>{{form.department}}</td></tr>
-                                <tr><td>{{form.position}}</td></tr>
-                                <tr><td>{{form.location}}</td></tr>
-                                <tr><td>{{form.state}}</td></tr>
-                            </table>
-                            <br>
-                        </fieldset>
-                        <button class="btn btn-success btn-lg" type="submit">
-                            <i class="fa fa-pencil-square-o"></i>&nbsp;Update</button>
-                        <a href="{% url 'workshop_app:index' %}" class="btn btn-primary btn-lg">Cancel
-                        </a>
-                    </form>
-                    </div>
-                </div>
-            </form>
-        {% endif %}
+            {% endif %}
+            <div class="col-md-6">
+              <label class="form-label" for="id_title">Title</label>
+              {{ form.title }}
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="id_first_name">First Name</label>
+              {{ form.first_name }}
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="id_last_name">Last Name</label>
+              {{ form.last_name }}
+            </div>
+            <div class="col-12">
+              <label class="form-label" for="id_phone_number"
+                >Phone Number</label
+              >
+              {{ form.phone_number }}
+            </div>
+            <div class="col-12">
+              <label class="form-label" for="id_institute">Institute</label>
+              {{ form.institute }}
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="id_department">Department</label>
+              {{ form.department }}
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="id_position">Position</label>
+              {{ form.position }}
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="id_location">Location</label>
+              {{ form.location }}
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="id_state">State</label>
+              {{ form.state }}
+            </div>
+            <div class="col-12 d-flex justify-content-end gap-2 mt-4">
+              <a href="{% url 'workshop_app:index' %}" class="btn btn-light"
+                >Cancel</a
+              >
+              <button class="btn btn-primary" type="submit">Update</button>
+            </div>
+          </form>
+          {% endif %}
+        </div>
+      </div>
     </div>
+  </div>
+</main>
 {% endblock %}
