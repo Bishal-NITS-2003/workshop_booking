@@ -18,11 +18,13 @@ class FilterForm(forms.Form):
     )
     workshop_type = forms.ModelChoiceField(
         queryset=WorkshopType.objects.all(), required=False,
-        widget=forms.Select(attrs={'class': 'form-control'})
+        empty_label="Select Workshop",
+        widget=forms.Select(attrs={'class': 'form-select'})
     )
     state = forms.ChoiceField(
-        choices=states, required=False,
-        widget=forms.Select(attrs={'class': 'form-control'})
+        choices=[('', 'Select State')] + list(states),  # Convert states to a list
+        required=False,
+        widget=forms.Select(attrs={'class': 'form-select'})
     )
     show_workshops = forms.BooleanField(
         help_text="Show my workshops only", required=False,
