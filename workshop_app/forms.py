@@ -132,8 +132,8 @@ class WorkshopForm(forms.ModelForm):
     errorlist_css_class = 'errorlist'
 
     def __init__(self, *args, **kwargs):
-        kwargs.setdefault('label_suffix', '')
         super(WorkshopForm, self).__init__(*args, **kwargs)
+        self.fields['workshop_type'].empty_label = "Select a workshop type"
         self.fields['tnc_accepted'].label = ""
         self.fields['tnc_accepted'].required = True
         self.fields['workshop_type'].label = "Workshop :"
@@ -146,7 +146,7 @@ class WorkshopForm(forms.ModelForm):
             'date': forms.DateInput(attrs={
                 'class': 'datepicker form-control', 'placeholder': 'Workshop Date'}),
             'workshop_type': forms.Select(attrs={
-                'class': 'form-control'}),
+                'class': 'form-select form-select-lg-md'}),
             'tnc_accepted': forms.CheckboxInput(attrs={
                 'class': 'form-check-input'
             })
