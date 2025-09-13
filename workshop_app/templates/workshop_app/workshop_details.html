@@ -200,7 +200,7 @@
                   <p class="fw-semibold mb-0">
                     <a
                       href="{% url 'workshop_app:view_profile' comment.author_id %}"
-                    >{{ comment.author }}</a>
+                    >{{ comment.author.get_full_name }}</a>
                   </p>
                   <p class="text-muted small mb-0">
                     {{ comment.created_date }}

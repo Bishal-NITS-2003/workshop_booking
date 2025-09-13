@@ -240,7 +240,7 @@ class ProfileForm(forms.ModelForm):
             {'class': "form-control", 'placeholder': 'Phone Number'}
         )
         self.fields['position'].widget.attrs.update(
-            {'class': "form-control", 'placeholder': 'Position'}
+            {'class': "form-control", 'placeholder': 'Position','disabled': True}
         )
         self.fields['location'].widget.attrs.update(
             {'class': "form-control", 'placeholder': 'Location'}
