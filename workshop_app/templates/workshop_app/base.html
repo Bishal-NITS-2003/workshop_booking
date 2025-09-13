@@ -6,7 +6,10 @@
     <title>{% block title %} HomePage {% endblock %}</title>
 
     <!-- Bootstrap 5 CSS & JS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{% static 'workshop_app/js/jquery-3.4.1.min.js' %}"></script>
     <script src="{% static 'workshop_app/js/toastr.min.js' %}"></script>
@@ -53,23 +56,29 @@
       body {
         font-family: "Inter", sans-serif !important;
       }
-      html, body {
-  height: 100%;
-  min-height: 100vh;
-}
+      html,
+      body {
+        height: 100%;
+        min-height: 100vh;
+      }
 
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
 
-.base-content {
-  flex: 1 0 auto;
-}
-.footer {
-  flex-shrink: 0;
-}
+      .base-content {
+        flex: 1 0 auto;
+      }
+      .footer {
+        flex-shrink: 0;
+      }
+
+      .footer {
+        background-color: #e9ecef;
+        color: #495057;
+      }
       .navbar-brand {
         color: #343a40 !important;
       }
@@ -102,12 +111,14 @@ body {
         <a
           class="navbar-brand d-flex align-items-center h5 mb-0 fw-bold"
           href="{% url 'workshop_app:index' %}"
-        >FOSSEE Workshops</a>
+          >FOSSEE Workshops</a
+        >
         {% else %}
         <a
           class="navbar-brand d-flex align-items-center h5 mb-0 fw-bold"
           href="{{request.scheme}}://{{request.get_host}}"
-        >FOSSEE Workshops</a>
+          >FOSSEE Workshops</a
+        >
         {% endif %}
 
         <!-- Bootstrap 5 Navbar Toggler -->
@@ -124,31 +135,49 @@ body {
         </button>
 
         <!-- Bootstrap 5 Navbar Collapse -->
-        <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+        <div
+          class="collapse navbar-collapse justify-content-between"
+          id="navbarSupportedContent"
+        >
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
               <a class="nav-link" href="/">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'statistics_app:public' %}">Workshop Statistics</a>
+              <a class="nav-link" href="{% url 'statistics_app:public' %}"
+                >Workshop Statistics</a
+              >
             </li>
-            {% if user.is_authenticated %}
-              {% if request.user|has_group:"instructor" %}
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'statistics_app:team' %}">Team Statistics</a>
-              </li>
-              {% endif %}
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'workshop_app:workshop_status_instructor' %}">Workshop Status</a>
-              </li>
-              {% if not request.user|has_group:"instructor" %}
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'workshop_app:propose_workshop' %}">Propose Workshop</a>
-              </li>
-              {% endif %}
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'workshop_app:workshop_type_list' %}">Workshop Types</a>
-              </li>
+            {% if user.is_authenticated %} {% if request.user|has_group:"instructor" %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'statistics_app:team' %}"
+                >Team Statistics</a
+              >
+            </li>
+            {% endif %}
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="{% url 'workshop_app:workshop_status_instructor' %}"
+                >Workshop Status</a
+              >
+            </li>
+            {% if not request.user|has_group:"instructor" %}
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="{% url 'workshop_app:propose_workshop' %}"
+                >Propose Workshop</a
+              >
+            </li>
+            {% endif %}
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="{% url 'workshop_app:workshop_type_list' %}"
+                >Workshop Types</a
+              >
+            </li>
             {% endif %}
           </ul>
 
@@ -163,21 +192,40 @@ body {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                <div class="profile-pic rounded-circle me-2 d-flex justify-content-center align-items-center">
-                  <span class="material-icons" style="vertical-align: middle">account_circle</span>
+                <div
+                  class="profile-pic rounded-circle me-2 d-flex justify-content-center align-items-center"
+                >
+                  <span class="material-icons" style="vertical-align: middle"
+                    >account_circle</span
+                  >
                 </div>
-                <span class="d-none d-lg-inline fw-semibold text-dark">{{user.get_full_name|title}}</span>
+                <span class="d-none d-lg-inline fw-semibold text-dark"
+                  >{{user.get_full_name|title}}</span
+                >
               </a>
-              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+              <ul
+                class="dropdown-menu dropdown-menu-end"
+                aria-labelledby="navbarDropdown"
+              >
                 <li>
-                  <a class="dropdown-item" href="{% url 'workshop_app:view_own_profile' %}">View Profile</a>
+                  <a
+                    class="dropdown-item"
+                    href="{% url 'workshop_app:view_own_profile' %}"
+                    >View Profile</a
+                  >
                 </li>
                 <li>
-                  <a class="dropdown-item" href="{% url 'password_change' %}">Change Password</a>
+                  <a class="dropdown-item" href="{% url 'password_change' %}"
+                    >Change Password</a
+                  >
                 </li>
                 <li><hr class="dropdown-divider" /></li>
                 <li>
-                  <a class="dropdown-item text-danger" href="{% url 'workshop_app:logout' %}">Logout</a>
+                  <a
+                    class="dropdown-item text-danger"
+                    href="{% url 'workshop_app:logout' %}"
+                    >Logout</a
+                  >
                 </li>
               </ul>
             </li>
@@ -202,9 +250,11 @@ body {
       {% endif %}
     </script>
   </body>
-  {% comment %} <footer class="footer">
-    {% block footer %}
-    <div class="container">Developed by FOSSEE group, IIT Bombay</div>
-    {% endblock %}
-  </footer> {% endcomment %}
+  <footer class="footer text-center py-3">
+    <div class="container">
+      {% block footer %}
+      <p class="mb-0">Developed by FOSSEE group, IIT Bombay.</p>
+      {% endblock %}
+    </div>
+  </footer>
 </html>

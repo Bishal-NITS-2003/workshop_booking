@@ -1,18 +1,21 @@
 {% extends 'workshop_app/base.html' %}
-
-	{% block title %}
-		Logged out
-	{% endblock %}
-
-
-	{% block content %}
-		<div class="container" align="center">
-			<br>
-			<h3>You have logged out successfully.</h3>
-			<h4>If you want to login again please
-				<a href="/">click here</a>
-			</h4>
-			<br>
-		</div>
-
-	{% endblock %}
+{% block title %}
+  Logged out
+{% endblock %}
+{% block content %}
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-6">
+        <div class="card shadow-sm border-0">
+          <div class="card-body text-center p-4">
+            <h3 class="fw-bold mb-3 text-primary">You have logged out successfully.</h3>
+            <h4 class="mb-4">
+              If you want to login again please
+              <a href="/" class="link-primary fw-semibold">click here</a>
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
