@@ -136,21 +136,36 @@
                 <li class="nav-item">
                   <a class="nav-link" href="{% url 'workshop_app:workshop_type_list' %}">Workshop Types</a>
                 </li>
+                <li class="nav-item d-inline d-lg-none">
+                  <a class="nav-link"  href="{% url 'workshop_app:view_own_profile' %}">View Profile</a>
+                </li>
+                <li class="nav-item d-inline d-lg-none">
+                  <a class="nav-link" href="{% url 'password_change' %}">Change Password</a>
+                </li>
+                <li class="d-inline d-lg-none">
+                  <hr class="dropdown-divider" />
+                </li>
+                <li class="nav-item d-inline d-lg-none">
+                  <a class="text-danger" href="{% url 'workshop_app:logout' %}">Logout</a>
+                </li>
               {% endif %}
             </ul>
             {% if user.is_authenticated %}
-              <ul class="navbar-nav ms-auto align-items-center">
+              <ul class="navbar-nav ms-auto align-items-center d-none d-lg-inline">
                 <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle d-flex align-items-center"
+                  <a class="nav-link d-flex align-items-center"
                      href="#"
                      id="navbarDropdown"
                      role="button"
                      data-bs-toggle="dropdown"
                      aria-expanded="false">
-                    <div class="profile-pic rounded-circle me-2 d-flex justify-content-center align-items-center">
-                      <span class="material-icons" style="vertical-align: middle">account_circle</span>
+                    <div class="profile-pic rounded-circle me-2 d-flex justify-content-center align-items-center"
+                         style="background-image: url('{% if user.profile.avatar %}{{ user.profile.avatar.url }}{% else %}https://ui-avatars.com/api/?name={{ user.get_full_name|urlencode }}{% endif %}')">
                     </div>
                     <span class="d-none d-lg-inline fw-semibold text-dark">{{ user.get_full_name|title }}</span>
+                    <span class="material-symbols-outlined ms-1"
+                          style="font-size: 1.2em;
+                                 vertical-align: middle">expand_more</span>
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end"
                       aria-labelledby="navbarDropdown">

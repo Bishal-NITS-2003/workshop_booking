@@ -332,7 +332,7 @@ def workshop_type_details(request, workshop_type_id):
     qs = AttachmentFile.objects.filter(workshop_type=workshop_type)
     AttachmentFileFormSet = inlineformset_factory(
         WorkshopType, AttachmentFile, fields=['attachments'],
-        can_delete=False, extra=(qs.count() + 1)
+        can_delete=False, extra=1
     )
 
     if is_instructor(user):
@@ -361,9 +361,7 @@ def workshop_type_details(request, workshop_type_id):
                     )
         else:
             form = WorkshopTypeForm(instance=workshop_type)
-        form_file = AttachmentFileFormSet()
-        for subform, data in zip(form_file, qs):
-            subform.initial = model_to_dict(data)
+        form_file = AttachmentFileFormSet(instance=workshop_type)
         return render(
             request, 'workshop_app/edit_workshop_type.html',
             {'form': form, 'form_file': form_file}

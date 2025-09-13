@@ -6,42 +6,73 @@
 {% endblock %}
 {% block extra-dependencies %}{% endblock %}
 {% block extra-custom-scripts %}
-  <script>
+  <style>
    :root {
       --primary-color: #1173d4;
       --secondary-color: #f0f2f4;
       --text-primary: #111418;
       --text-secondary: #617589;
   }
+
   body {
       font-family: 'Inter', sans-serif;
       background-color: #f8f9fa;
   }
+
+  .custom_input-file input[type="file"] {
+      width: 100%;
+  }
+
   .main-content {
       background-color: white;
       border: 1px solid #dee2e6;
       border-radius: 0.5rem;
       box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, .075);
   }
-  .btn-primary {
-      background-color: var(--primary-color);
-      border-color: var(--primary-color);
-  }
-  .btn-primary:hover {
-      background-color: #0d6efd;
-      border-color: #0d6efd;
-  }
-  .btn-danger {
-      color: #dc3545;
-      background-color: transparent;
-      border-color: transparent;
-  }
-  .btn-danger:hover {
-      color: #fff;
-      background-color: #dc3545;
-      border-color: #dc3545;
-  }
-  </script>
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        .btn-primary:hover {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+        }
+        .btn-danger {
+            color: #dc3545;
+            background-color: transparent;
+            border-color: transparent;
+        }
+        .btn-danger:hover {
+            color: #fff;
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+        @media (min-width: 1024px) {
+            .custom-anchor {
+                max-width: 700px;
+            }
+        }
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .custom-anchor {
+                max-width: 500px;
+            }
+        }
+        @media (min-width: 590px) and (max-width: 767px) {
+            .custom-anchor {
+                max-width: 500px;
+            }
+        }
+        @media (min-width: 425px) and (max-width: 589px) {
+            .custom-anchor {
+                max-width: 230px;
+            }
+        }
+        @media (max-width: 424px) {
+            .custom-anchor {
+                max-width: 120px;
+            }
+        }
+  </style>
   <script src="{% static 'workshop_app/js/jquery.formset.js' %}"></script>
 {% endblock %}
 {% block content %}
@@ -85,40 +116,37 @@
             {{ form_file.management_form }} {{ form_file.non_form_errors }}
             <ul class="list-group mt-3">
               {% for form in form_file %}
-                <li class="list-group-item py-3 px-2">
-                  <div class="row g-2 align-items-center">
-                    <div class="col-12 col-md-10">
-                      {% for field in form %}
-                        <div class="mb-2">
-                          {{ field }}
-                          {% if field.errors %}<div class="text-danger small mt-1">{{ field.errors }}</div>{% endif %}
-                        </div>
-                      {% endfor %}
-                      {% if form.instance.attachments %}
-                        <div class="mt-2">
-                          <span class="text-muted small">Currently:</span>
-                          <a href="{{ form.instance.attachments.url }}"
-                             class="link-primary ms-1"
-                             target="_blank">{{ form.instance.attachments.name }}</a>
-                        </div>
-                      {% endif %}
+                {% if form.instance and form.instance.pk %}
+                  <li class="list-group-item d-flex flex-wrap justify-content-between align-items-center px-2 px-md-3">
+                    <div class="d-flex align-items-center gap-2-md gap-1">
+                      <span class="material-symbols-outlined text-secondary me-2">attach_file</span>
+                      <a href="{{ form.instance.attachments.url }}"
+                         class="link-primary ms-1 text-truncate custom-anchor"
+                         target="_blank">{{ form.instance.attachments.name }}</a>
+                      {% if field.errors %}<div class="text-danger small mt-1">{{ field.errors }}</div>{% endif %}
                     </div>
                     {% if form.id.value %}
-                      <div class="col-12 col-md-2 mt-2 mt-md-0 d-flex justify-content-md-end">
-                        <a href="{% url 'workshop_app:delete_attachment_file' form.id.value %}">
-                          <button class="btn btn-md btn-danger w-100 w-md-auto" type="button">Delete</button>
-                        </a>
+                      <div>
+                        <a href="{% url 'workshop_app:delete_attachment_file' form.instance.pk %}"
+                           class="btn btn-sm btn-danger mb-0">Delete</a>
                       </div>
                     {% endif %}
-                  </div>
-                </li>
+                  </li>
+                {% else %}
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="custom_input-file">
+                      {{ form.attachments }}
+                      {% if form.attachments.errors %}<div class="text-danger small">{{ form.attachments.errors }}</div>{% endif %}
+                    </div>
+                  </li>
+                {% endif %}
               {% endfor %}
             </ul>
           </div>
           <div class="d-flex justify-content-end gap-2 pt-4">
             <a href="{% url 'workshop_app:workshop_type_list' %}"
-               class="btn btn-secondary btn-lg">Cancel</a>
-            <button class="btn btn-primary btn-lg" type="submit">Save Changes</button>
+               class="btn btn-secondary">Cancel</a>
+            <button class="btn btn-primary" type="submit">Save Changes</button>
           </div>
         </form>
       </div>
