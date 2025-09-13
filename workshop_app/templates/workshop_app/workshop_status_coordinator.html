@@ -1,7 +1,7 @@
-{% extends "workshop_app/base.html" %} 
-{% block title %} My Workshops {%endblock %} 
+{% extends "workshop_app/base.html" %}
+{% block title %}My Workshops{% endblock %}
 {% block extra-custom-scripts %}
-<style>
+  <style>
      :root {
             --primary-color: #1173d4;
         }
@@ -54,122 +54,106 @@
             border: 1px solid #dee2e6;
             box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, .075);
         }
-</style>
-{% endblock %} {% block content %}
-<main class="container py-5">
-  <div class="mb-4">
-    <h1 class="h2 fw-bold">Workshop Status</h1>
-    <p class="text-muted">Track the status of your workshops.</p>
-  </div>
-  {% if not workshops %}
-  <div class="card mb-5">
-    <div class="card-body">
-      <h1 class="card-title fw-bold mb-2 h3">Welcome {{ user.first_name }}</h1>
-      <p class="card-text text-muted mb-0">
-        Information related to your workshops will be shown here. You can also
-        propose a workshop as per your available date in the
-        <strong>Propose Workshop</strong> tab.
-      </p>
+  </style>
+{% endblock %}
+{% block content %}
+  <main class="container py-5">
+    <div class="mb-4">
+      <h1 class="h2 fw-bold">Workshop Status</h1>
+      <p class="text-muted">Track the status of your workshops.</p>
     </div>
-  </div>
-  {% else %}
-  <div class="card mb-5">
-    <div class="card-header bg-white py-3">
-      <h2 class="h5 mb-0">Accepted Workshops</h2>
-    </div>
-    <div class="card-body p-0">
-      <div class="table-responsive">
-        <table class="table table-hover table-striped mb-0">
-          <thead class="table-light">
-            <tr>
-              <th class="py-3 px-4" scope="col">Workshop Name</th>
-              <th class="py-3 px-4" scope="col">Instructor Name</th>
-              <th class="py-3 px-4" scope="col">Workshop Day</th>
-              <th class="py-3 px-4" scope="col">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for workshop in workshops %} 
-            {% if workshop.status %}
-            <tr>
-              <td class="py-3 px-4 fw-medium">
-                <a href="{% url 'workshop_app:workshop_details' workshop.id %}">
-                  {{ workshop.workshop_type|capfirst }}
-                </a>
-              </td>
-              <td class="py-3 px-4 text-muted">
-                {{ workshop.instructor.get_full_name}}
-              </td>
-              <td class="py-3 px-4 text-muted">{{ workshop.date|date }}</td>
-              <td class="py-3 px-4">
-                {% if workshop.get_status == "Accepted" %}
-                <span class="status-pill status-approved"
-                  >{{ workshop.get_status }}</span
-                >
-                 {% elif workshop.get_status == "Deleted" %}
-                <span class="status-pill status-deleted"
-                  >{{ workshop.get_status }}</span
-                >
-                {% else %}
-                <span class="status-pill status-pending"
-                  >{{ workshop.get_status }}</span
-                >
-                {% endif %}
-              </td>
-            </tr>
-            {% endif %} {% endfor %}
-          </tbody>
-        </table>
+    {% if not workshops %}
+      <div class="card mb-5">
+        <div class="card-body">
+          <h1 class="card-title fw-bold mb-2 h3">Welcome {{ user.first_name }}</h1>
+          <p class="card-text text-muted mb-0">
+            Information related to your workshops will be shown here. You can also
+            propose a workshop as per your available date in the
+            <strong>Propose Workshop</strong> tab.
+          </p>
+        </div>
       </div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-header bg-white py-3">
-      <h2 class="h5 mb-0">Workshops Proposed by Me</h2>
-    </div>
-    <div class="card-body p-0">
-      <div class="table-responsive">
-        <table class="table table-hover table-striped mb-0">
-          <thead class="table-light">
-            <tr>
-              <th class="py-3 px-4" scope="col">Workshop Name</th>
-              <th class="py-3 px-4" scope="col">Workshop Day</th>
-              <th class="py-3 px-4" scope="col">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for workshop in workshops %} 
-            {% if not workshop.status and workshop.tnc_accepted %}
-            <tr>
-              <td class="py-3 px-4 fw-medium">
-                <a href="{% url 'workshop_app:workshop_details' workshop.id %}">
-                  {{ workshop.workshop_type|capfirst }}
-                </a>
-              </td>
-              <td class="py-3 px-4 text-muted">{{ workshop.date|date }}</td>
-              <td class="py-3 px-4">
-                {% if workshop.get_status == "Pending" %}
-                <span class="status-pill status-pending"
-                  >{{ workshop.get_status }}</span
-                >
-                {% elif workshop.get_status == "Approved" %}
-                <span class="status-pill status-approved"
-                  >{{ workshop.get_status }}</span
-                >
-                {% else %}
-                <span class="status-pill status-pending"
-                  >{{ workshop.get_status }}</span
-                >
-                {% endif %}
-              </td>
-            </tr>
-            {% endif %} 
-            {% endfor %}
-          </tbody>
-        </table>
+    {% else %}
+      <div class="card mb-5">
+        <div class="card-header bg-white py-3">
+          <h2 class="h5 mb-0">Accepted Workshops</h2>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th class="py-3 px-4" scope="col">Workshop Name</th>
+                  <th class="py-3 px-4" scope="col">Instructor Name</th>
+                  <th class="py-3 px-4" scope="col">Workshop Day</th>
+                  <th class="py-3 px-4" scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for workshop in workshops %}
+                  {% if workshop.status %}
+                    <tr>
+                      <td class="py-3 px-4 fw-medium">
+                        <a href="{% url 'workshop_app:workshop_details' workshop.id %}">{{ workshop.workshop_type|capfirst }}</a>
+                      </td>
+                      <td class="py-3 px-4 text-muted">{{ workshop.instructor.get_full_name }}</td>
+                      <td class="py-3 px-4 text-muted">{{ workshop.date|date }}</td>
+                      <td class="py-3 px-4">
+                        {% if workshop.get_status == "Accepted" %}
+                          <span class="status-pill status-approved">{{ workshop.get_status }}</span>
+                        {% elif workshop.get_status == "Deleted" %}
+                          <span class="status-pill status-deleted">{{ workshop.get_status }}</span>
+                        {% else %}
+                          <span class="status-pill status-pending">{{ workshop.get_status }}</span>
+                        {% endif %}
+                      </td>
+                    </tr>
+                  {% endif %}
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-  {% endif %}
-</main>
+      <div class="card">
+        <div class="card-header bg-white py-3">
+          <h2 class="h5 mb-0">Workshops Proposed by Me</h2>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th class="py-3 px-4" scope="col">Workshop Name</th>
+                  <th class="py-3 px-4" scope="col">Workshop Day</th>
+                  <th class="py-3 px-4" scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for workshop in workshops %}
+                  {% if not workshop.status and workshop.tnc_accepted %}
+                    <tr>
+                      <td class="py-3 px-4 fw-medium">
+                        <a href="{% url 'workshop_app:workshop_details' workshop.id %}">{{ workshop.workshop_type|capfirst }}</a>
+                      </td>
+                      <td class="py-3 px-4 text-muted">{{ workshop.date|date }}</td>
+                      <td class="py-3 px-4">
+                        {% if workshop.get_status == "Pending" %}
+                          <span class="status-pill status-pending">{{ workshop.get_status }}</span>
+                        {% elif workshop.get_status == "Approved" %}
+                          <span class="status-pill status-approved">{{ workshop.get_status }}</span>
+                        {% else %}
+                          <span class="status-pill status-pending">{{ workshop.get_status }}</span>
+                        {% endif %}
+                      </td>
+                    </tr>
+                  {% endif %}
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  </main>
 {% endblock %}

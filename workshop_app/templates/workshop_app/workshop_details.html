@@ -1,6 +1,7 @@
-{% extends 'workshop_app/base.html' %} {% block title %} View Workshop details
-{% endblock %} {% block extra-custom-scripts %}
-<style>
+{% extends 'workshop_app/base.html' %}
+{% block title %}View Workshop details{% endblock %}
+{% block extra-custom-scripts %}
+  <style>
    :root {
             --primary-color: #1173d4;
             --secondary-color: #f0f2f4;
@@ -69,156 +70,117 @@
             background-color: #f8d7da;
             color: #842029;
         }
-</style>
-{% endblock %} {% block content %}
-<main class="container my-5">
-  <div class="row justify-content-center">
-    <div class="col-lg-9">
-      <div class="card mb-4">
-        <div class="card-body p-4">
-          <h1 class="card-title h3 border-bottom pb-3 mb-4">
-            Workshop Details
-          </h1>
-          <div class="row g-4">
-            <div class="col-md-6 d-flex align-items-center">
-              <span class="material-symbols-outlined me-3 text-secondary"
-                >category</span
-              >
-              <div>
-                <p class="text-muted mb-0 small">Workshop Type</p>
-                <p class="fw-medium mb-0">
-                  <a
-                    href="{% url 'workshop_app:workshop_type_details' workshop.workshop_type_id %}"
-                  >
-                    {{ workshop.workshop_type }}
-                  </a>
-                </p>
-              </div>
-            </div>
-            <div class="col-md-6 d-flex align-items-center">
-              <span class="material-symbols-outlined me-3 text-secondary"
-                >event</span
-              >
-              <div>
-                <p class="text-muted mb-0 small">Date</p>
-                <p class="fw-medium mb-0">{{ workshop.date }}</p>
-              </div>
-            </div>
-            <div class="col-md-6 d-flex align-items-center">
-              <span class="material-symbols-outlined me-3 text-secondary"
-                >person</span
-              >
-              <div>
-                <p class="text-muted mb-0 small">Coordinator</p>
-                <p class="fw-medium mb-0">
-                  {{ workshop.coordinator.get_full_name|title }}
-                </p>
-              </div>
-            </div>
-            <div class="col-md-6 d-flex align-items-center">
-              <span class="material-symbols-outlined me-3 text-secondary"
-                >aod_tablet</span
-              >
-              <div>
-                <p class="text-muted mb-0 small">Status</p>
-                {% if workshop.get_status == "Accepted" %}
-                <span class="status-pill status-approved"
-                  >{{ workshop.get_status }}</span
-                >
-                {% elif workshop.get_status == "Deleted" %}
-                 <span class="status-pill status-deleted"
-                  >{{ workshop.get_status }}</span
-                >
-                {% elif workshop.get_status == "Pending" %}
-                <span class="status-pill status-pending"
-                  >{{ workshop.get_status }}</span
-                >
-                {% endif %}
-              </div>
-            </div>
-            {% if workshop.status %}
-            <div class="col-md-6 d-flex align-items-center">
-              <span class="material-symbols-outlined me-3 text-secondary"
-                >school</span
-              >
-              <div>
-                <p class="text-muted mb-0 small">Instructor</p>
-                <p class="fw-medium mb-0">
-                  {{ workshop.instructor|title }}
-                </p>
-              </div>
-            </div>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-      <div class="card mb-4">
-        <div class="card-body p-4">
-          <h2 class="card-title h4 mb-3">Post a Comment</h2>
-          <form method="post">
-            {% csrf_token %}
-            <div class="mb-3">{{ form.comment }}</div>
-            {% if request.user.profile.position == 'instructor' %}
-            <div class="mb-3 d-flex align-items-center">
-              {{ form.public }} <span class="ms-2">Public</span>
-              <span class="ms-3 text-muted small"
-                >(Non-public comments are visible only to instructors)</span
-              >
-            </div>
-            {% endif %}
-            <div class="d-flex justify-content-end">
-              <button
-                class="btn btn-primary d-flex align-items-center"
-                type="submit"
-              >
-                <span class="material-symbols-outlined me-2">send</span>
-                Post
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-body p-4">
-        <h2 class="card-title h4 mb-4">All Comments</h2>
-        {% if workshop_comments %}
-        {% else %}
-            <p class="text-muted">No comments yet.</p>
-        {% endif %}
-          <div class="d-flex flex-column gap-4">
-            {% for comment in workshop_comments %}
-            <div class="d-flex align-items-start gap-3">
-              <img
-                alt="Commenter avatar"
-                class="rounded-circle"
-                height="40"
-                width="40"
-                src="{% if comment.author.profile.avatar %}{{ comment.author.profile.avatar.url }}{% else %}https://ui-avatars.com/api/?name={{ comment.author.get_full_name|urlencode }}{% endif %}"
-              />
-              <div class="flex-grow-1">
-                <div class="d-flex align-items-baseline gap-2 flex-column flex-sm-row">
-                  <p class="fw-semibold mb-0">
-                    <a
-                      href="{% url 'workshop_app:view_profile' comment.author_id %}"
-                    >{{ comment.author.get_full_name }}</a>
+  </style>
+{% endblock %}
+{% block content %}
+  <main class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-9">
+        <div class="card mb-4">
+          <div class="card-body p-4">
+            <h1 class="card-title h3 border-bottom pb-3 mb-4">Workshop Details</h1>
+            <div class="row g-4">
+              <div class="col-md-6 d-flex align-items-center">
+                <span class="material-symbols-outlined me-3 text-secondary">category</span>
+                <div>
+                  <p class="text-muted mb-0 small">Workshop Type</p>
+                  <p class="fw-medium mb-0">
+                    <a href="{% url 'workshop_app:workshop_type_details' workshop.workshop_type_id %}">{{ workshop.workshop_type }}</a>
                   </p>
-                  <p class="text-muted small mb-0">
-                    {{ comment.created_date }}
-                  </p>
-                  {% if not comment.public %}
-                  <span class="badge bg-dark ms-2">Hidden</span>
+                </div>
+              </div>
+              <div class="col-md-6 d-flex align-items-center">
+                <span class="material-symbols-outlined me-3 text-secondary">event</span>
+                <div>
+                  <p class="text-muted mb-0 small">Date</p>
+                  <p class="fw-medium mb-0">{{ workshop.date }}</p>
+                </div>
+              </div>
+              <div class="col-md-6 d-flex align-items-center">
+                <span class="material-symbols-outlined me-3 text-secondary">person</span>
+                <div>
+                  <p class="text-muted mb-0 small">Coordinator</p>
+                  <p class="fw-medium mb-0">{{ workshop.coordinator.get_full_name|title }}</p>
+                </div>
+              </div>
+              <div class="col-md-6 d-flex align-items-center">
+                <span class="material-symbols-outlined me-3 text-secondary">aod_tablet</span>
+                <div>
+                  <p class="text-muted mb-0 small">Status</p>
+                  {% if workshop.get_status == "Accepted" %}
+                    <span class="status-pill status-approved">{{ workshop.get_status }}</span>
+                  {% elif workshop.get_status == "Deleted" %}
+                    <span class="status-pill status-deleted">{{ workshop.get_status }}</span>
+                  {% elif workshop.get_status == "Pending" %}
+                    <span class="status-pill status-pending">{{ workshop.get_status }}</span>
                   {% endif %}
                 </div>
-                <p class="mt-1 mb-0">{{ comment.comment }}</p>
               </div>
+              {% if workshop.status %}
+                <div class="col-md-6 d-flex align-items-center">
+                  <span class="material-symbols-outlined me-3 text-secondary">school</span>
+                  <div>
+                    <p class="text-muted mb-0 small">Instructor</p>
+                    <p class="fw-medium mb-0">{{ workshop.instructor|title }}</p>
+                  </div>
+                </div>
+              {% endif %}
             </div>
-            {% if not forloop.last %}
-            <hr />
-            {% endif %} {% endfor %}
+          </div>
+        </div>
+        <div class="card mb-4">
+          <div class="card-body p-4">
+            <h2 class="card-title h4 mb-3">Post a Comment</h2>
+            <form method="post">
+              {% csrf_token %}
+              <div class="mb-3">{{ form.comment }}</div>
+              {% if request.user.profile.position == 'instructor' %}
+                <div class="mb-3 d-flex align-items-center">
+                  {{ form.public }} <span class="ms-2">Public</span>
+                  <span class="ms-3 text-muted small">(Non-public comments are visible only to instructors)</span>
+                </div>
+              {% endif %}
+              <div class="d-flex justify-content-end">
+                <button class="btn btn-primary d-flex align-items-center" type="submit">
+                  <span class="material-symbols-outlined me-2">send</span>
+                  Post
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body p-4">
+            <h2 class="card-title h4 mb-4">All Comments</h2>
+            {% if workshop_comments %}
+            {% else %}
+              <p class="text-muted">No comments yet.</p>
+            {% endif %}
+            <div class="d-flex flex-column gap-4">
+              {% for comment in workshop_comments %}
+                <div class="d-flex align-items-start gap-3">
+                  <img alt="Commenter avatar"
+                       class="rounded-circle"
+                       height="40"
+                       width="40"
+                       src="{% if comment.author.profile.avatar %}{{ comment.author.profile.avatar.url }}{% else %}https://ui-avatars.com/api/?name={{ comment.author.get_full_name|urlencode }}{% endif %}" />
+                  <div class="flex-grow-1">
+                    <div class="d-flex align-items-baseline gap-2 flex-column flex-sm-row">
+                      <p class="fw-semibold mb-0">
+                        <a href="{% url 'workshop_app:view_profile' comment.author_id %}">{{ comment.author.get_full_name }}</a>
+                      </p>
+                      <p class="text-muted small mb-0">{{ comment.created_date }}</p>
+                      {% if not comment.public %}<span class="badge bg-dark ms-2">Hidden</span>{% endif %}
+                    </div>
+                    <p class="mt-1 mb-0">{{ comment.comment }}</p>
+                  </div>
+                </div>
+                {% if not forloop.last %}<hr />{% endif %}
+              {% endfor %}
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</main>
+  </main>
 {% endblock %}

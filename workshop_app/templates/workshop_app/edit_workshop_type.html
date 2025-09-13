@@ -1,7 +1,12 @@
-{% extends 'workshop_app/base.html' %} {% load static %} {% block title %} Add
-new Workshop type {% endblock %} {% block extra-dependencies %} {% endblock %}
+{% extends 'workshop_app/base.html' %}
+{% load static %}
+{% block title %}
+  Add
+  new Workshop type
+{% endblock %}
+{% block extra-dependencies %}{% endblock %}
 {% block extra-custom-scripts %}
-<script>
+  <script>
    :root {
       --primary-color: #1173d4;
       --secondary-color: #f0f2f4;
@@ -36,131 +41,90 @@ new Workshop type {% endblock %} {% block extra-dependencies %} {% endblock %}
       background-color: #dc3545;
       border-color: #dc3545;
   }
-</script>
-
-<script src="{% static 'workshop_app/js/jquery.formset.js' %}"></script>
-{% endblock %} {% block content %}
-<main class="flex-grow-1 py-5">
-  <div class="container-lg">
-    <div class="mb-5">
-      <h1 class="display-6 fw-bold">View/Edit Workshop Type</h1>
-      <p class="fs-6 text-muted">
-        Manage the details and attachments for this workshop type.
-      </p>
-    </div>
-    <div class="main-content p-4 p-md-5 bg-white rounded shadow-sm">
-      <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="row g-4 mb-4">
-          <div class="col-md-6">
-            <label class="form-label" for="{{ form.name.id_for_label }}"
-              >Workshop Name</label
-            >
-            {{ form.name}} {% if form.name.errors %}
-            <div class="text-danger small mt-1">{{ form.name.errors }}</div>
-            {% endif %}
-          </div>
-          <div class="col-md-6">
-            <label class="form-label" for="{{ form.duration.id_for_label }}"
-              >Duration</label
-            >
-            {{ form.duration }} {% if form.duration.help_text %}
-            <div class="text-muted small mt-1">
-              {{ form.duration.help_text }}
+  </script>
+  <script src="{% static 'workshop_app/js/jquery.formset.js' %}"></script>
+{% endblock %}
+{% block content %}
+  <main class="flex-grow-1 py-5">
+    <div class="container-lg">
+      <div class="mb-5">
+        <h1 class="display-6 fw-bold">View/Edit Workshop Type</h1>
+        <p class="fs-6 text-muted">Manage the details and attachments for this workshop type.</p>
+      </div>
+      <div class="main-content p-4 p-md-5 bg-white rounded shadow-sm">
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="row g-4 mb-4">
+            <div class="col-md-6">
+              <label class="form-label" for="{{ form.name.id_for_label }}">Workshop Name</label>
+              {{ form.name }}
+              {% if form.name.errors %}<div class="text-danger small mt-1">{{ form.name.errors }}</div>{% endif %}
             </div>
-            {% endif %} {% if form.duration.errors %}
-            <div class="text-danger small mt-1">{{ form.duration.errors }}</div>
+            <div class="col-md-6">
+              <label class="form-label" for="{{ form.duration.id_for_label }}">Duration</label>
+              {{ form.duration }}
+              {% if form.duration.help_text %}<div class="text-muted small mt-1">{{ form.duration.help_text }}</div>{% endif %}
+              {% if form.duration.errors %}<div class="text-danger small mt-1">{{ form.duration.errors }}</div>{% endif %}
+            </div>
+          </div>
+          <div class="mb-4">
+            <label class="form-label" for="{{ form.description.id_for_label }}">Description</label>
+            {{ form.description }}
+            {% if form.description.errors %}<div class="text-danger small mt-1">{{ form.description.errors }}</div>{% endif %}
+          </div>
+          <div class="mb-5">
+            <label class="form-label" for="{{ form.terms_and_conditions.id_for_label }}">Terms and Conditions</label>
+            {{ form.terms_and_conditions }}
+            {% if form.terms_and_conditions.errors %}
+              <div class="text-danger small mt-1">{{ form.terms_and_conditions.errors }}</div>
             {% endif %}
           </div>
-        </div>
-        <div class="mb-4">
-          <label class="form-label" for="{{ form.description.id_for_label }}"
-            >Description</label
-          >
-          {{ form.description }} {% if form.description.errors %}
-          <div class="text-danger small mt-1">
-            {{ form.description.errors }}
-          </div>
-          {% endif %}
-        </div>
-        <div class="mb-5">
-          <label
-            class="form-label"
-            for="{{ form.terms_and_conditions.id_for_label }}"
-            >Terms and Conditions</label
-          >
-          {{ form.terms_and_conditions }} {% if form.terms_and_conditions.errors %}
-          <div class="text-danger small mt-1">
-            {{ form.terms_and_conditions.errors }}
-          </div>
-          {% endif %}
-        </div>
-        <div class="mb-4">
-          <h2 class="fs-4 fw-semibold">Attachments</h2>
-          <p class="text-muted">
-            Manage files associated with this workshop type.
-          </p>
-          {{ form_file.management_form }} {{ form_file.non_form_errors }}
-          <ul class="list-group mt-3">
-            {% for form in form_file %}
-            <li class="list-group-item py-3 px-2">
-              <div class="row g-2 align-items-center">
-                <div class="col-12 col-md-10">
-                  {% for field in form %}
-                  <div class="mb-2">
-                    {{ field }} {% if field.errors %}
-                    <div class="text-danger small mt-1">{{ field.errors }}</div>
+          <div class="mb-4">
+            <h2 class="fs-4 fw-semibold">Attachments</h2>
+            <p class="text-muted">Manage files associated with this workshop type.</p>
+            {{ form_file.management_form }} {{ form_file.non_form_errors }}
+            <ul class="list-group mt-3">
+              {% for form in form_file %}
+                <li class="list-group-item py-3 px-2">
+                  <div class="row g-2 align-items-center">
+                    <div class="col-12 col-md-10">
+                      {% for field in form %}
+                        <div class="mb-2">
+                          {{ field }}
+                          {% if field.errors %}<div class="text-danger small mt-1">{{ field.errors }}</div>{% endif %}
+                        </div>
+                      {% endfor %}
+                      {% if form.instance.attachments %}
+                        <div class="mt-2">
+                          <span class="text-muted small">Currently:</span>
+                          <a href="{{ form.instance.attachments.url }}"
+                             class="link-primary ms-1"
+                             target="_blank">{{ form.instance.attachments.name }}</a>
+                        </div>
+                      {% endif %}
+                    </div>
+                    {% if form.id.value %}
+                      <div class="col-12 col-md-2 mt-2 mt-md-0 d-flex justify-content-md-end">
+                        <a href="{% url 'workshop_app:delete_attachment_file' form.id.value %}">
+                          <button class="btn btn-md btn-danger w-100 w-md-auto" type="button">Delete</button>
+                        </a>
+                      </div>
                     {% endif %}
                   </div>
-                  {% endfor %} {% if form.instance.attachments %}
-                  <div class="mt-2">
-                    <span class="text-muted small">Currently:</span>
-                    <a
-                      href="{{ form.instance.attachments.url }}"
-                      class="link-primary ms-1"
-                      target="_blank"
-                    >
-                      {{ form.instance.attachments.name }}
-                    </a>
-                  </div>
-                  {% endif %}
-                </div>
-                {% if form.id.value %}
-                <div
-                  class="col-12 col-md-2 mt-2 mt-md-0 d-flex justify-content-md-end"
-                >
-                  <a
-                    href="{% url 'workshop_app:delete_attachment_file' form.id.value %}"
-                  >
-                    <button
-                      class="btn btn-md btn-danger w-100 w-md-auto"
-                      type="button"
-                    >
-                      Delete
-                    </button>
-                  </a>
-                </div>
-                {% endif %}
-              </div>
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-        <div class="d-flex justify-content-end gap-2 pt-4">
-          <a
-            href="{% url 'workshop_app:workshop_type_list' %}"
-            class="btn btn-secondary btn-lg"
-            >Cancel</a
-          >
-          <button class="btn btn-primary btn-lg" type="submit">
-            Save Changes
-          </button>
-        </div>
-      </form>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+          <div class="d-flex justify-content-end gap-2 pt-4">
+            <a href="{% url 'workshop_app:workshop_type_list' %}"
+               class="btn btn-secondary btn-lg">Cancel</a>
+            <button class="btn btn-primary btn-lg" type="submit">Save Changes</button>
+          </div>
+        </form>
+      </div>
     </div>
-  </div>
-</main>
-<script type="text/javascript">
+  </main>
+  <script type="text/javascript">
   $(function () {
     $(".inline.{{ form_file.prefix }}").formset({
       prefix: "{{ form_file.prefix }}",
@@ -171,5 +135,5 @@ new Workshop type {% endblock %} {% block extra-dependencies %} {% endblock %}
       formCssClass: "inline-form",
     });
   });
-</script>
+  </script>
 {% endblock %}

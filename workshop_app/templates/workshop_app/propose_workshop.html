@@ -1,19 +1,15 @@
-{% extends "workshop_app/base.html" %} 
-{% load static %} 
-{% block title %}
-Propose a workshop 
-{% endblock %} 
+{% extends "workshop_app/base.html" %}
+{% load static %}
+{% block title %}Propose a workshop{% endblock %}
 {% block extra-dependencies %}
-<link
-  rel="stylesheet"
-  href="{% static 'workshop_app/css/jquery-ui.css' %}"
-  type="text/css"
-/>
-<script src="{% static 'workshop_app/js/jquery-1.12.4.js' %}"></script>
-<script src="{% static 'workshop_app/js/jquery-ui.min.js' %}"></script>
-{% endblock %} 
+  <link rel="stylesheet"
+        href="{% static 'workshop_app/css/jquery-ui.css' %}"
+        type="text/css" />
+  <script src="{% static 'workshop_app/js/jquery-1.12.4.js' %}"></script>
+  <script src="{% static 'workshop_app/js/jquery-ui.min.js' %}"></script>
+{% endblock %}
 {% block extra-custom-scripts %}
-<style>
+  <style>
         :root {
             --primary-color: #1173d4;
         }
@@ -45,8 +41,8 @@ Propose a workshop
             background-color: var(--primary-color);
             border-color: var(--primary-color);
         }
-    </style>
-<script>
+  </style>
+  <script>
   var dateToday = new Date();
   var upto = new Date();
 
@@ -78,103 +74,82 @@ Propose a workshop
       }
     });
   });
-</script>
-{% endblock %} 
+  </script>
+{% endblock %}
 {% block content %}
-<main class="container py-5">
-  <div class="row justify-content-center">
-    <div class="col-lg-8">
-      <div class="card shadow-sm">
-        <div class="card-body p-4 p-md-5">
-          <h2 class="card-title h3 mb-4 fw-bold">Propose a Workshop</h2>
-          <div class="alert alert-info d-flex align-items-center" role="alert">
-            <span class="material-symbols-outlined me-2">info</span>
-            <div>
-              <strong>Note:</strong> Before proposing a workshop, about the workshop in the
-              <a
-                class="alert-link"
-                href="{% url 'workshop_app:workshop_type_list' %}"
-                >Workshop Types</a
-              >
-              section.
-            </div>
-          </div>
-          <hr class="my-4" />
-          <form method="post">
-            {% csrf_token %}
-            <div class="mb-4">
-              <label class="form-label fw-medium" for="id_workshop_type"
-                >Workshop Type</label
-              >
-              {{ form.workshop_type }}
-            </div>
-            <div class="mb-4">
-              <label class="form-label fw-medium" for="id_date"
-                >Workshop Date</label
-              >
-              <div class="input-group">
-                <span class="input-group-text bg-light border-end-0">
-                  <span class="material-symbols-outlined text-muted"
-                    >calendar_today</span
-                  >
-                </span>
-                {{ form.date }}
+  <main class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card shadow-sm">
+          <div class="card-body p-4 p-md-5">
+            <h2 class="card-title h3 mb-4 fw-bold">Propose a Workshop</h2>
+            <div class="alert alert-info d-flex align-items-center" role="alert">
+              <span class="material-symbols-outlined me-2">info</span>
+              <div>
+                <strong>Note:</strong> Before proposing a workshop, about the workshop in the
+                <a class="alert-link" href="{% url 'workshop_app:workshop_type_list' %}">Workshop Types</a>
+                section.
               </div>
             </div>
-            <div class="form-check mb-4">
-              {{ form.tnc_accepted }}
-              <label class="form-check-label" for="id_tnc_accepted">
-                I accept the
-                <a
-                  class="text-decoration-none"
-                  href="#"
-                  id="disp_tnc"
-                  data-bs-toggle="modal"
-                  data-bs-target="#exampleModalCenter"
-                  >terms and conditions</a
-                >
-              </label>
-            </div>
-            {% if form.errors %}
-            <div class="alert alert-danger">
-              <h5 class="mb-2">Errors</h5>
-              {{ form.errors }}
-            </div>
-            {% endif %}
-            <div class="d-grid d-md-flex justify-content-md-end">
-              <button class="btn btn-primary btn-lg px-5" type="submit">
-                Submit Proposal
-              </button>
-            </div>
-          </form>
+            <hr class="my-4" />
+            <form method="post">
+              {% csrf_token %}
+              <div class="mb-4">
+                <label class="form-label fw-medium" for="id_workshop_type">Workshop Type</label>
+                {{ form.workshop_type }}
+              </div>
+              <div class="mb-4">
+                <label class="form-label fw-medium" for="id_date">Workshop Date</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-light border-end-0">
+                    <span class="material-symbols-outlined text-muted">calendar_today</span>
+                  </span>
+                  {{ form.date }}
+                </div>
+              </div>
+              <div class="form-check mb-4">
+                {{ form.tnc_accepted }}
+                <label class="form-check-label" for="id_tnc_accepted">
+                  I accept the
+                  <a class="text-decoration-none"
+                     href="#"
+                     id="disp_tnc"
+                     data-bs-toggle="modal"
+                     data-bs-target="#exampleModalCenter">terms and conditions</a>
+                </label>
+              </div>
+              {% if form.errors %}
+                <div class="alert alert-danger">
+                  <h5 class="mb-2">Errors</h5>
+                  {{ form.errors }}
+                </div>
+              {% endif %}
+              <div class="d-grid d-md-flex justify-content-md-end">
+                <button class="btn btn-primary btn-lg px-5" type="submit">Submit Proposal</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</main>
-<!-- Modal -->
-<div
-  class="modal fade"
-  id="exampleModalCenter"
-  tabindex="-1"
-  aria-labelledby="exampleModalLongTitle"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">
-          Terms and Conditions
-        </h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+  </main>
+  <!-- Modal -->
+  <div class="modal fade"
+       id="exampleModalCenter"
+       tabindex="-1"
+       aria-labelledby="exampleModalLongTitle"
+       aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Terms and Conditions</h5>
+          <button type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"></button>
+        </div>
+        <div class="modal-body"></div>
       </div>
-      <div class="modal-body"></div>
     </div>
   </div>
-</div>
 {% endblock %}

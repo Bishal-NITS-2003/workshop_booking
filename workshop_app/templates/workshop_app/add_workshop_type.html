@@ -1,75 +1,46 @@
-{% extends 'workshop_app/base.html' %} {% block title %} Add new Workshop type
-{% endblock %} {% block content %}
-<div class="container py-5">
-  <div class="row justify-content-center">
-    <div class="col-12 col-md-8 col-lg-7">
-      <div class="card shadow-sm border-0">
-        <div class="card-body p-4">
-          <h2 class="h4 fw-bold text-center mb-4">New Workshop Type</h2>
-          <form method="post">
-            {% csrf_token %}
-            <div class="mb-4">
-              <label
-                class="form-label fw-semibold"
-                for="{{ form.name.id_for_label }}"
-                >Workshop Name</label
-              >
-              {{ form.name }} 
-              {% if form.name.errors %}
-              <div class="text-danger small mt-1">{{ form.name.errors }}</div>
-              {% endif %}
-            </div>
-            <div class="mb-4">
-              <label
-                class="form-label fw-semibold"
-                for="{{ form.duration.id_for_label }}"
-                >Duration</label
-              >
-              {{ form.duration }} 
-              {% if form.duration.help_text %}
-              <div class="text-muted small mt-1">
-                {{ form.duration.help_text }}
+{% extends 'workshop_app/base.html' %}
+{% block title %}Add new Workshop type{% endblock %}
+{% block content %}
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-7">
+        <div class="card shadow-sm border-0">
+          <div class="card-body p-4">
+            <h2 class="h4 fw-bold text-center mb-4">New Workshop Type</h2>
+            <form method="post">
+              {% csrf_token %}
+              <div class="mb-4">
+                <label class="form-label fw-semibold" for="{{ form.name.id_for_label }}">Workshop Name</label>
+                {{ form.name }}
+                {% if form.name.errors %}<div class="text-danger small mt-1">{{ form.name.errors }}</div>{% endif %}
               </div>
-              {% endif %} {% if form.duration.errors %}
-              <div class="text-danger small mt-1">
-                {{ form.duration.errors }}
+              <div class="mb-4">
+                <label class="form-label fw-semibold" for="{{ form.duration.id_for_label }}">Duration</label>
+                {{ form.duration }}
+                {% if form.duration.help_text %}<div class="text-muted small mt-1">{{ form.duration.help_text }}</div>{% endif %}
+                {% if form.duration.errors %}<div class="text-danger small mt-1">{{ form.duration.errors }}</div>{% endif %}
               </div>
-              {% endif %}
-            </div>
-            <div class="mb-4">
-              <label
-                class="form-label fw-semibold"
-                for="{{ form.description.id_for_label }}"
-                >Description</label
-              >
-              {{ form.description }} 
-              {% if form.description.errors %}
-              <div class="text-danger small mt-1">
-                {{ form.description.errors }}
+              <div class="mb-4">
+                <label class="form-label fw-semibold"
+                       for="{{ form.description.id_for_label }}">Description</label>
+                {{ form.description }}
+                {% if form.description.errors %}<div class="text-danger small mt-1">{{ form.description.errors }}</div>{% endif %}
               </div>
-              {% endif %}
-            </div>
-            <div class="mb-4">
-              <label
-                class="form-label fw-semibold"
-                for="{{ form.terms_and_conditions.id_for_label }}"
-                >Terms and Conditions</label
-              >
-              {{ form.terms_and_conditions }} {% if form.terms_and_conditions.errors %}
-              <div class="text-danger small mt-1">
-                {{ form.terms_and_conditions.errors }}
+              <div class="mb-4">
+                <label class="form-label fw-semibold"
+                       for="{{ form.terms_and_conditions.id_for_label }}">Terms and Conditions</label>
+                {{ form.terms_and_conditions }}
+                {% if form.terms_and_conditions.errors %}
+                  <div class="text-danger small mt-1">{{ form.terms_and_conditions.errors }}</div>
+                {% endif %}
               </div>
-              {% endif %}
-            </div>
-            <div class="d-flex justify-content-end pt-2">
-              <button type="submit" class="btn btn-primary btn-lg">
-                Create
-              </button>
-            </div>
-          </form>
+              <div class="d-flex justify-content-end pt-2">
+                <button type="submit" class="btn btn-primary btn-lg">Create</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 {% endblock %}

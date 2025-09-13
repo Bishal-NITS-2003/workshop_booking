@@ -1,6 +1,7 @@
-{% extends 'workshop_app/base.html' %} {% block title %} Register {% endblock %}
+{% extends 'workshop_app/base.html' %}
+{% block title %}Register{% endblock %}
 {% block extra-custom-scripts %}
-<style>
+  <style>
       :root {
         --primary-color: #1173d4;
         --secondary-color: #f0f2f4;
@@ -53,75 +54,64 @@
       .footer {
         background-color: white;
       }
-    </style>
+  </style>
 {% endblock %}
 {% block content %}
-<main class="flex-grow-1">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-8">
-        <div class="card p-4 p-md-5">
-          <div class="card-body">
-            <h1 class="card-title fw-bold text-gray-900 mb-2 h2">
-              Coordinator Registration
-            </h1>
-            <p class="card-text text-muted mb-4">
-              Create an account to get started.
-            </p>
-            <form class="row g-4" method="post" autocomplete="off">
-              {% csrf_token %} 
-              {% for field in form %}
-  <div class="col-md-6{% if field.name in 'title department state how_did_you_hear' %} col-md-4{% endif %}">
-    <label class="form-label{% if field.field.required %} required{% endif %}" for="{{ field.id_for_label }}">
-      {{ field.label }}
-    </label>
-    {% if field.field.widget.input_type == "select" %}
-      <select
-        class="form-select{% if field.errors %} is-invalid{% endif %}"
-        id="{{ field.id_for_label }}"
-        name="{{ field.html_name }}"
-        {% if field.field.required %}required{% endif %}
-      >
-        {% for option in field.field.choices %}
-          <option value="{{ option.0 }}" {% if option.0 == field.value %}selected{% endif %}>{{ option.1 }}</option>
-        {% endfor %}
-      </select>
-    {% else %}
-      <input
-        type="{{ field.field.widget.input_type }}"
-        class="form-control{% if field.errors %} is-invalid{% endif %}"
-        id="{{ field.id_for_label }}"
-        name="{{ field.html_name }}"
-        value="{{ field.value|default_if_none:'' }}"
-        placeholder="Enter your {{ field.label|lower }}"
-        {% if field.field.required %}required{% endif %}
-      />
-    {% endif %}
-    {% if field.errors %}
-      <div class="invalid-feedback">
-        {% for error in field.errors %}{{ error }}{% endfor %}
-      </div>
-    {% endif %}
-  </div>
-{% endfor %} 
-			  {% if form.non_field_errors %}
-              <div class="col-12">
-                <div class="alert alert-danger">
-                  {% for error in form.non_field_errors %} {{ error }} 
-				  {% endfor%}
+  <main class="flex-grow-1">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="card p-4 p-md-5">
+            <div class="card-body">
+              <h1 class="card-title fw-bold text-gray-900 mb-2 h2">Coordinator Registration</h1>
+              <p class="card-text text-muted mb-4">Create an account to get started.</p>
+              <form class="row g-4" method="post" autocomplete="off">
+                {% csrf_token %}
+                {% for field in form %}
+                  <div class="col-md-6{% if field.name in 'title department state how_did_you_hear' %} col-md-4{% endif %}">
+                    <label class="form-label{% if field.field.required %} required{% endif %}"
+                           for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {% if field.field.widget.input_type == "select" %}
+                      <select class="form-select{% if field.errors %} is-invalid{% endif %}"
+                              id="{{ field.id_for_label }}"
+                              name="{{ field.html_name }}"
+                              {% if field.field.required %}required{% endif %}>
+                        {% for option in field.field.choices %}
+                          <option value="{{ option.0 }}"
+                                  {% if option.0 == field.value %}selected{% endif %}>{{ option.1 }}</option>
+                        {% endfor %}
+                      </select>
+                    {% else %}
+                      <input type="{{ field.field.widget.input_type }}"
+                             class="form-control{% if field.errors %} is-invalid{% endif %}"
+                             id="{{ field.id_for_label }}"
+                             name="{{ field.html_name }}"
+                             value="{{ field.value|default_if_none:'' }}"
+                             placeholder="Enter your {{ field.label|lower }}"
+                             {% if field.field.required %}required{% endif %} />
+                    {% endif %}
+                    {% if field.errors %}
+                      <div class="invalid-feedback">
+                        {% for error in field.errors %}{{ error }}{% endfor %}
+                      </div>
+                    {% endif %}
+                  </div>
+                {% endfor %}
+                {% if form.non_field_errors %}
+                  <div class="col-12">
+                    <div class="alert alert-danger">
+                      {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+                    </div>
+                  </div>
+                {% endif %}
+                <div class="col-12 mt-4">
+                  <button class="btn btn-primary w-100 py-3" type="submit">Register</button>
                 </div>
-              </div>
-              {% endif %}
-              <div class="col-12 mt-4">
-                <button class="btn btn-primary w-100 py-3" type="submit">
-                  Register
-                </button>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</main>
+  </main>
 {% endblock %}
