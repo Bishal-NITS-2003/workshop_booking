@@ -193,6 +193,9 @@ class WorkshopTypeForm(forms.ModelForm):
 class AttachmentFileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(AttachmentFileForm, self).__init__(*args, **kwargs)
+        self.fields['attachments'].widget.attrs.update({
+            'class': 'form-control'
+        })
 
     class Meta:
         model = AttachmentFile
