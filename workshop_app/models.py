@@ -45,7 +45,7 @@ source = (
 )
 
 states = (
-    ("", "---------"),
+    ("", "Select State"),
     ("IN-AP", "Andhra Pradesh"),
     ("IN-AR", "Arunachal Pradesh"),
     ("IN-AS", "Assam"),

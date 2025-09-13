@@ -37,7 +37,7 @@ View List of available Workshops
       {% if request.user|has_group:"instructor" %}
       <a
         href="{% url 'workshop_app:add_workshop_type' %}"
-        class="btn btn-primary float-end mb-3"
+        class="btn btn-primary mb-3"
       >
         Add Workshop Type
       </a>

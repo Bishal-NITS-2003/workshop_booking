@@ -1,48 +1,93 @@
-{% extends 'workshop_app/base.html' %}
-
-{% block title %}
- Workshop  Statistics
-{% endblock %}
-
-{% block content %}
-
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-2">
-            <ul class="nav nav-pills list-group">
-                {% for team in all_teams %}
-                    <li class="nav-item">
-                        <a href="{% url 'statistics_app:team' team.id %}" class="nav-link list-group-item">
-                            Team {{forloop.counter}}
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
+{% extends 'workshop_app/base.html' %} {% block title %} Workshop Statistics {% endblock %} {% block content %}
+<div class="container py-4">
+  <div class="row">
+    <div class="col-12 col-md-3 mb-4 mb-md-0">
+      <div class="card shadow-sm h-100">
+        <div class="card-header bg-white">
+          <h5 class="mb-0 fw-semibold">Teams</h5>
         </div>
-        <div class="col-md-8">
-            <br>
-            <canvas id="myChart"></canvas>
-        </div>
+        <ul class="list-group list-group-flush">
+          {% for team in all_teams %}
+          <li class="list-group-item px-3 py-2">
+            <a
+              href="{% url 'statistics_app:team' team.id %}"
+              class="nav-link px-0 fw-medium {% if team.id == selected_team_id %}active text-primary{% endif %}"
+            >
+              Team {{ forloop.counter }}
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
     </div>
+    <div class="col-12 col-md-9">
+      <div class="card shadow-sm h-100">
+        <div class="card-header bg-white">
+          <h5 class="mb-0 fw-semibold">Team Workshop Statistics</h5>
+        </div>
+        <div class="card-body">
+          <div
+            class="chart-responsive"
+            style="position: relative; min-height: 300px"
+          >
+            <canvas id="myChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+<style>
+  .chart-responsive {
+    width: 100%;
+    min-height: 300px;
+  }
+  @media (max-width: 767.98px) {
+    .card-header h5 {
+      font-size: 1rem;
+    }
+    .list-group-item {
+      font-size: 0.95rem;
+      padding: 0.5rem 1rem;
+    }
+    .chart-responsive {
+      min-height: 220px;
+    }
+  }
+</style>
 <script>
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var chart = new Chart(ctx, {
-        // The type of chart we want to create
-        type: 'bar',
-
-        // The data for our dataset
-        data: {
-            labels: {{team_labels|safe}},
-            datasets: [{
-                data: {{ws_count|safe}},
-                label: "Team Members Workshops",
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
+  var ctx = document.getElementById('myChart').getContext('2d');
+  var chart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+          labels: {{ team_labels|safe }},
+          datasets: [{
+              data: {{ ws_count|safe }},
+              label: "Team Members Workshops",
+              backgroundColor: 'rgba(17, 115, 212, 0.7)',
+              borderColor: 'rgba(17, 115, 212, 1)',
+              borderWidth: 2,
+              maxBarThickness: 40,
             }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false }
         },
-        // Configuration options go here
-        options: {}
-    });
+        scales: {
+          x: {
+            ticks: { color: '#111418', font: { weight: 'bold' } },
+            grid: { display: false }
+          },
+          y: {
+            beginAtZero: true,
+            ticks: { color: '#617589' },
+            grid: { color: '#f0f2f4' }
+          }
+        }
+      }
+  });
 </script>
 {% endblock %}
